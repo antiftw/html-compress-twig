@@ -13,10 +13,7 @@ use voku\helper\HtmlMin;
 
 class MinifyHtmlExtension extends AbstractExtension
 {
-    /**
-     * @var array
-     */
-    private $options = [
+    private array$options = [
         'is_safe'           => ['html'],
         'needs_environment' => true,
     ];
@@ -26,15 +23,9 @@ class MinifyHtmlExtension extends AbstractExtension
      */
     private $callable;
 
-    /**
-     * @var HtmlMin
-     */
-    private $minifier;
+    private HtmlMin $minifier;
 
-    /**
-     * @var bool
-     */
-    private $forceCompression = false;
+    private bool $forceCompression;
 
     /**
      * MinifyHtmlExtension constructor.
@@ -51,11 +42,11 @@ class MinifyHtmlExtension extends AbstractExtension
 
     /**
      * @param Environment $twig
-     * @param string      $html
+     * @param string $html
      *
      * @return string
      */
-    public function compress(Environment $twig, $html)
+    public function compress(Environment $twig, string $html): string
     {
         if ($this->isCompressionActive($twig)) {
             static $cache = null;

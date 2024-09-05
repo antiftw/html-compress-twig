@@ -7,29 +7,33 @@ use Twig\Node\Node;
 
 class MinifyHtmlNode extends Node
 {
-    /**
-     * MinifyHtmlNode constructor.
-     *
-     * @param array $nodes
-     * @param array $attributes
-     * @param int   $lineno
-     * @param null  $tag
-     */
-    public function __construct(array $nodes = [], array $attributes = [], $lineno = 0, $tag = null)
+    public function __construct(array $nodes = [], array $attributes = [], int $lineno = 0, $tag = null)
     {
         parent::__construct($nodes, $attributes, $lineno, $tag);
     }
 
-    /**
-     * @param Compiler $compiler
-     */
-    public function compile(Compiler $compiler)
+    public function compile(Compiler $compiler): void
     {
+        $bodyNode = $this->getNode('body');
+
+        // Get the raw content directly from the TextNode attribute
+        $rawContent = $bodyNode->getAttribute('data');
+
+        // Manually handle the output buffering and compression
         $compiler
             ->addDebugInfo($this)
+
+            // Start output buffering manually
             ->write("ob_start();\n")
-            ->subcompile($this->getNode('body'))
-            ->write('$extension = $this->env->getExtension(\'\\voku\\twig\\MinifyHtmlExtension\');' . "\n")
-            ->write('echo $extension->compress($this->env, ob_get_clean());' . "\n");
+
+            // Output the raw content directly to the buffer
+            ->write("echo '$rawContent';\n")
+
+            // Capture the output from the buffer
+            ->write("\$compiledOutput = ob_get_clean();\n")
+
+            // Retrieve the MinifyHtmlExtension and apply compression to the captured output
+            ->write("\$extension = \$this->env->getExtension('\\voku\\twig\\MinifyHtmlExtension');\n")
+            ->write("echo \$extension->compress(\$this->env, \$compiledOutput);\n");
     }
 }

@@ -18,11 +18,15 @@
     {
       "name": "Lars Moelleken",
       "homepage": "http://www.moelleken.org/"
+    },
+    {
+      "name": "Antolin Janssen",
+      "homepage": "https://www.antiftw.nl"
     }
   ],
   "require": {
-    "php": ">=7.0.0",
-    "twig/twig": "~2.7 || ^3",
+    "php": ">=8.0.0",
+    "twig/twig": " ^3",
     "voku/html-min": "~4.4",
     "voku/simple-cache": "~4.0"
   },

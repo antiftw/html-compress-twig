@@ -9,11 +9,7 @@ use Twig\TokenParser\AbstractTokenParser;
 
 class MinifyHtmlTokenParser extends AbstractTokenParser
 {
-    /**
-     * @param Token $token
-     *
-     * @return bool
-     */
+
     public function decideHtmlCompressEnd(Token $token): bool
     {
         return $token->test('endhtmlcompress');
@@ -25,11 +21,6 @@ class MinifyHtmlTokenParser extends AbstractTokenParser
         return 'htmlcompress';
     }
 
-    /**
-     * @param Token $token
-     *
-     * @return MinifyHtmlNode
-     */
     public function parse(Token $token): MinifyHtmlNode
     {
         $lineNumber = $token->getLine();
